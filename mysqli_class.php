@@ -107,18 +107,16 @@ class ViralDB
 		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
 	}
 
-/*old
-	public function insert($sql){
-		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
-		if(DEBUG == true AND php_sapi_name() == "cli"){
-			echo $sql."\n";
+	/*old
+		public function insert($sql){
+			$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
+			if(DEBUG == true AND php_sapi_name() == "cli"){
+				echo $sql."\n";
+			}
+			return $result;
 		}
-		return $result;
-	}
 
-*/
-
-
+	*/
 
 	public function find($id,$table){
 		$sql = "SELECT * FROM $table WHERE id = $id";
