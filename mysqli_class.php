@@ -5,7 +5,9 @@
  ******************************************************/
 class ViralDB
 {
-	private $link;
+	public  $con;
+	public 	$mysqli_Key;
+	public 	$mysqli_Value;
 	public  $sql;
 	public  $id;
 	public 	$table;
@@ -16,17 +18,17 @@ class ViralDB
 		if(HOST == "" OR USERNAME == "" OR PASSWORD == "" OR DBNAME == ""){
 			die("Please Enter DATABASE details in mysqli_conf.php file");
 		}
-		$this->link = new mysqli(HOST,USERNAME,PASSWORD,DBNAME);
-		if($this->link->connect_errno > 0){
-			die('Unable to connect to database [' . $this->link->connect_error . ']');
+		$this->con = new mysqli(HOST,USERNAME,PASSWORD,DBNAME);
+		if($this->con->connect_errno > 0){
+			die('Unable to connect to database [' . $this->con->connect_error . ']');
 		}
 	}
 
 	public function query($sql){
-		$result = mysqli_query($this->link,$sql) or die(mysqli_error($this->link));
+		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
 
 		/* DEBUG TRUE OR FALSE BY CONFIG FILE*/
-		if(DEBUG == true){
+		if(DEBUG == true AND php_sapi_name() == "cli"){
 			echo "\n";
 			echo ":::::::::::::::::::::::::\n";
 			echo ":: mysqli_query Result ::\n";
@@ -38,7 +40,7 @@ class ViralDB
 		if($result->num_rows < 1){
 
 			/* DEBUG TRUE OR FALSE BY CONFIG FILE*/
-			if(DEBUG == true){
+			if(DEBUG == true AND php_sapi_name() == "cli"){
 				echo "\n";
 				echo "::::::::::::::::::::::::::::::::\n";
 				echo ":: No Row Found by This Query ::\n";
@@ -51,7 +53,7 @@ class ViralDB
 		$result = mysqli_fetch_object($result);
 
 		/* DEBUG TRUE OR FALSE BY CONFIG FILE*/
-		if(DEBUG == true){
+		if(DEBUG == true AND php_sapi_name() == "cli"){
 			echo "\n";
 			echo "::::::::::::::::::::::::::::::::\n";
 			echo ":: mysqli_fetch_object Result ::\n";
@@ -64,12 +66,66 @@ class ViralDB
 	}
 
 
+	public function delete($sql){
+		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
+		if(DEBUG == true AND php_sapi_name() == "cli"){
+			echo $sql."\n";
+		}
+		return $result;
+	}
+
+
+	public function update($sql){
+		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
+		if(DEBUG == true AND php_sapi_name() == "cli"){
+			echo $sql."\n";
+		}
+		return $result;
+	}
+
+
+	public function insert($Array_sql,$tbl){
+		$con = $this->con;
+		$mysqli_Key = "";
+		$mysqli_Value = "";
+		foreach($Array_sql as $key => $sql_value)
+		{
+		  $mysqli_Value .= '\''.mysqli_real_escape_string($con, $sql_value).'\'';
+		  $mysqli_Value .= ",";
+
+		  $mysqli_Key .= ''.$key.'';
+		  $mysqli_Key .= ",";
+		}
+
+		$mysqli_Value = rtrim($mysqli_Value, ",");
+		$mysqli_Key = rtrim($mysqli_Key, ",");
+
+		$sql = 'INSERT INTO '.$tbl.' ('.$mysqli_Key.') VALUES('.$mysqli_Value.')';
+		if(DEBUG == true AND php_sapi_name() == "cli"){
+			echo $sql."\n";
+		}
+		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
+	}
+
+/*old
+	public function insert($sql){
+		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
+		if(DEBUG == true AND php_sapi_name() == "cli"){
+			echo $sql."\n";
+		}
+		return $result;
+	}
+
+*/
+
+
+
 	public function find($id,$table){
 		$sql = "SELECT * FROM $table WHERE id = $id";
-		$result = mysqli_query($this->link,$sql) or die(mysqli_error($this->link));
+		$result = mysqli_query($this->con,$sql) or die(mysqli_error($this->con));
 
 		/* DEBUG TRUE OR FALSE BY CONFIG FILE*/
-		if(DEBUG == true){
+		if(DEBUG == true AND php_sapi_name() == "cli"){
 			echo "\n";
 			echo ":::::::::::::::::::::::::\n";
 			echo ":: mysqli_query Result ::\n";
@@ -81,7 +137,7 @@ class ViralDB
 		if($result->num_rows < 1){
 
 			/* DEBUG TRUE OR FALSE BY CONFIG FILE*/
-			if(DEBUG == true){
+			if(DEBUG == true AND php_sapi_name() == "cli"){
 				echo "\n";
 				echo "::::::::::::::::::::::::::::::::\n";
 				echo ":: No Row Found by This Query ::\n";
@@ -94,7 +150,7 @@ class ViralDB
 		$result = mysqli_fetch_object($result);
 
 		/* DEBUG TRUE OR FALSE BY CONFIG FILE*/
-		if(DEBUG == true){
+		if(DEBUG == true AND php_sapi_name() == "cli"){
 			echo "\n";
 			echo "::::::::::::::::::::::::::::::::\n";
 			echo ":: mysqli_fetch_object Result ::\n";
@@ -107,7 +163,11 @@ class ViralDB
 	}
 
 	public function close(){
-		return $this->link->close();
+		return $this->con->close();
+	}
+
+	public function con(){
+		return $this->con;
 	}
 
 
