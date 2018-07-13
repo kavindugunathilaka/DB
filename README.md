@@ -12,7 +12,7 @@ MysqliDb -- Simple MySQLi php class
 **[Insert Query](#insert-query)**  
 **[Update Query](#update-query)**  
 **[Select Query](#select-query)**  
-**[More details please see sample file]](#more-details)**
+**[More details](#more-details)**
 
 ### Installation
 
@@ -75,4 +75,5 @@ $sql = "SELECT * FROM table_name WHERE id = 1";
 $result = $db->query($sql);
 ```
 
-### More details please see sample file
+### More details
+``` please see sample file```
