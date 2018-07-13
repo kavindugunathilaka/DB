@@ -1,8 +1,4 @@
-# DB
 # PHP MySQLi Simple Class
-# Add database detail in config file
-# Usage
-# see Sample php file
 
 MysqliDb -- Simple MySQLi php class
 <hr>
