@@ -18,9 +18,10 @@ MysqliDb -- Simple MySQLi php class
 
 run on command line
 
-```cd yourproject
+```cd yourproject```
 
-git clone https://github.com/viralc/DB.git```
+
+```git clone https://github.com/viralc/DB.git```
 
 
 ```php
