@@ -12,14 +12,15 @@ MysqliDb -- Simple MySQLi php class
 **[Insert Query](#insert-query)**  
 **[Update Query](#update-query)**  
 **[Select Query](#select-query)**  
+**[More details please see sample file]](#more-details)**
 
 ### Installation
 
 run on command line
 
-cd yourproject
+```cd yourproject
 
-```git clone https://github.com/viralc/DB.git```
+git clone https://github.com/viralc/DB.git```
 
 
 ```php
