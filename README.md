@@ -36,7 +36,7 @@ define('DEBUG', true);
 ```
 
 ### Initialization
-Simple initialization with utf8 charset set by default:
+Simple initialization
 ```php
 $db = new ViralDB();
 $con = $db->con();
