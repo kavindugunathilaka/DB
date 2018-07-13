@@ -70,6 +70,7 @@ $db->close();
 ```php
 $sql = "SELECT * FROM table_name WHERE id = 1";
 $result = $db->query($sql);
+$db->close();
 ```
 
 ### More details
